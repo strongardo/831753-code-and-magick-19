@@ -5,6 +5,9 @@ var CLOUD_HEIGHT = 270;
 var CLOUD_X = 100;
 var CLOUD_Y = 10;
 var CLOUD_GAP = 10;
+var TEXT_X = 120;
+var TEXT_Y = 40;
+var TEXT_GAP = 20;
 var GIST_HEIGHT = 150;
 var GIST_GAP = 85;
 var BAR_WIDTH = 40;
@@ -37,8 +40,8 @@ window.renderStatistics = function (ctx, names, times) {
 
   ctx.fillStyle = '#000';
   ctx.font = '16px PT Mono';
-  ctx.fillText('Ура вы победили!', 120, 40);
-  ctx.fillText('Список результатов:', 120, 60);
+  ctx.fillText('Ура вы победили!', TEXT_X, TEXT_Y);
+  ctx.fillText('Список результатов:', TEXT_X, TEXT_Y + TEXT_GAP);
 
   for (var i = 0; i < names.length; i++) {
     ctx.fillText(Math.round(times[i]), CLOUD_X + BAR_WIDTH + (BAR_WIDTH + BAR_GAP) * i, CLOUD_Y + GIST_GAP + GIST_HEIGHT - (GIST_HEIGHT * times[i] / getMaxElement(times)) - TIMES_GAP);
