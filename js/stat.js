@@ -45,11 +45,7 @@ window.renderStatistics = function (ctx, names, times) {
 
   for (var i = 0; i < names.length; i++) {
     ctx.fillText(Math.round(times[i]), CLOUD_X + BAR_WIDTH + (BAR_WIDTH + BAR_GAP) * i, CLOUD_Y + GIST_GAP + GIST_HEIGHT - (GIST_HEIGHT * times[i] / getMaxElement(times)) - TIMES_GAP);
-    if (names[i] === 'Вы') {
-      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-    } else {
-      ctx.fillStyle = 'hsl(233,' + Math.floor(Math.random() * 100) + '%, 50%)';
-    }
+    ctx.fillStyle = names[i] === 'Вы' ? 'rgba(255, 0, 0, 1)' : 'hsl(233,' + Math.floor(Math.random() * 100) + '%, 50%)';
     ctx.fillRect(CLOUD_X + BAR_WIDTH + (BAR_WIDTH + BAR_GAP) * i, CLOUD_Y + GIST_GAP + GIST_HEIGHT, BAR_WIDTH, -1 * GIST_HEIGHT * times[i] / getMaxElement(times));
     ctx.fillStyle = '#000';
     ctx.fillText(names[i], CLOUD_X + BAR_WIDTH + (BAR_WIDTH + BAR_GAP) * i, CLOUD_Y + GIST_GAP + GIST_HEIGHT + NAMES_GAP);
