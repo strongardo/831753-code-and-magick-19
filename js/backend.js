@@ -1,11 +1,13 @@
 'use strict';
 
 (function () {
-  var downUrl = 'https://js.dump.academy/code-and-magick/data';
-  var upUrl = 'https://js.dump.academy/code-and-magick';
   var TIMEOUT_IN_MS = 10000;
+  var STATUS_CODE_OK = 200;
+  var DOWNLOAD_URL = 'https://js.dump.academy/code-and-magick/data';
+  var UPLOAD_URL = 'https://js.dump.academy/code-and-magick';
+  var renderWizards = window.renderWizards;
 
-  var onDownError = function () {
+  var onDownloadError = function () {
     var node = document.createElement('div');
     node.style = 'z-index: 100; text-align: center; background-color: red;';
     node.style.position = 'absolute';
@@ -16,7 +18,7 @@
     document.body.insertAdjacentElement('afterbegin', node);
   };
 
-  var onUpError = function (errorMessage) {
+  var onUploadError = function (errorMessage) {
     var node = document.createElement('div');
     node.style = 'z-index: 100; text-align: center; background-color: red;';
     node.style.position = 'absolute';
@@ -30,12 +32,24 @@
   };
 
   var load = function () {
-    var loader = document.createElement('script');
-    loader.src = downUrl + '?callback=window.wizards.render';
-    loader.onerror = function () {
-      window.backend.onDownError();
-    };
-    document.body.append(loader);
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+
+    xhr.addEventListener('load', function () {
+      if (xhr.status === STATUS_CODE_OK) {
+        window.serverData = xhr.response;
+        renderWizards(xhr.response);
+      } else {
+        onDownloadError();
+      }
+    });
+
+    xhr.addEventListener('error', function () {
+      onDownloadError();
+    });
+
+    xhr.open('GET', DOWNLOAD_URL);
+    xhr.send();
   };
 
   var save = function (data, onLoad) {
@@ -47,16 +61,16 @@
     });
 
     xhr.addEventListener('error', function () {
-      onUpError('Произошла ошибка соединения');
+      onUploadError('Произошла ошибка соединения');
     });
 
     xhr.addEventListener('timeout', function () {
-      onUpError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      onUploadError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
     xhr.timeout = TIMEOUT_IN_MS;
 
-    xhr.open('POST', upUrl);
+    xhr.open('POST', UPLOAD_URL);
     xhr.send(data);
   };
 
@@ -64,6 +78,5 @@
 
   window.backend = {
     save: save,
-    onDownError: onDownError,
   };
 })();
