@@ -11,7 +11,6 @@
     colorIndex = (colorIndex > arr.length - 1) ? 0 : colorIndex;
     var color = arr[colorIndex];
     colorIndex++;
-    // var color = getRandomElement(arr);
     if (element.style.fill) {
       element.style.fill = color;
     } else {

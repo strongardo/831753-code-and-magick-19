@@ -14,17 +14,21 @@
   var wizardEyesColors = ['red', 'blue', 'yellow', 'green', 'black'];
   var wizardFireballColors = ['#30a8ee', '#5ce6c0', '#e848d5', '#e6e848', '#ee4830'];
   var changeColor = window.utils.changeColor;
+  var updateWizards = window.updateWizards;
 
   setupWizardCoat.addEventListener('click', function () {
     changeColor(wizardCoatColors, setupWizardCoat, coatInput);
+    updateWizards();
   });
 
   setupWizardEyes.addEventListener('click', function () {
     changeColor(wizardEyesColors, setupWizardEyes, eyesInput);
+    updateWizards();
   });
 
   setupWizardFireball.addEventListener('click', function () {
     changeColor(wizardFireballColors, setupWizardFireball, fireballInput);
+    updateWizards();
   });
 
   form.addEventListener('submit', function (evt) {
